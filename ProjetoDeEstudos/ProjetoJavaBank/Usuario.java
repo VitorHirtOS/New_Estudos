@@ -7,7 +7,6 @@ public class Usuario {
     private int idade;
     private String CVC;
     private String numeroCard = "";
-    private String saldo = "0";
     private String dataVencimento;
 
     private void cartaoConfig(){
@@ -39,7 +38,6 @@ public class Usuario {
         informacoes.add(String.valueOf(idade));
         informacoes.add(CVC);
         informacoes.add(numeroCard);
-        informacoes.add(saldo);
         informacoes.add(dataVencimento);
 
         return informacoes;
@@ -60,6 +58,10 @@ public class Usuario {
     public Usuario(String nome, int idade){
         this.nome = nome;
         this.idade = idade;
+    }
+
+    public Usuario(){
+
     }
 
 }
