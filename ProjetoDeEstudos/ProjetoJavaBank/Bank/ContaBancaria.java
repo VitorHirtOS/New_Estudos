@@ -1,14 +1,12 @@
+package Bank;
+
 public class ContaBancaria {
     
-    private int saldo = 0;
+    private int saldo;
     private int limite;
 
     public void Depostio(int valor){
         this.saldo += valor;
-    }
-
-    public int GetSaldo(){
-        return this.saldo;
     }
 
     public void Pagar(int valor){
@@ -44,6 +42,10 @@ public class ContaBancaria {
 
     public void SaldoSalario(int salario){
         this.saldo += salario;
+    }
+
+    public int GetSaldo(){
+        return this.saldo;
     }
 
     public ContaBancaria(){
