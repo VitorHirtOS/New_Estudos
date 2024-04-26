@@ -1,16 +1,20 @@
 package Cartao;
 
+import Cartao.Exception.ExcpetionCartao;
+
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Cartao {
 
-    public void criadoArquivo(ArrayList<String> lista) {
+    public void criadoArquivo(ArrayList<String> lista) throws ExcpetionCartao, IOException {
 
         File arquivo = new File("Backup.txt");
 
-        try{
+        if (!arquivo.exists()) {
+
             FileWriter fw = new FileWriter(arquivo);
 
             if(lista != null){
@@ -22,9 +26,10 @@ public class Cartao {
                 }
                 System.out.println("-------- End --------");
                 fw.close();
+
             }
-        }catch (Exception ex){
-            System.out.println("Erro na execução" + ex);
+        }else{
+            throw new ExcpetionCartao("Não foi possível criar o seu cartão ");
         }
 
     }

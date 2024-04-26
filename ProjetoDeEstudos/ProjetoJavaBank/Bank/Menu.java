@@ -1,9 +1,13 @@
 package Bank;
 
 import API.ViaCep;
+import Bank.Exception.ExceptionContaBancaria;
 import Cartao.Cartao;
 import Bank.Exception.ExceptionMenu;
+import Cartao.Exception.ExcpetionCartao;
+import Fisica_Juridica.Pessoa;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,9 +25,9 @@ public class Menu extends Cartao {
     private int pagar;
     private String senha;
     private String senhaIsValid;
+    private String id;
 
-
-    public void menu(){
+    public void menu() throws ExcpetionCartao, IOException, ExceptionContaBancaria {
 
         contaBancaria = new ContaBancaria();
         usuario = new Usuario(nome, idade, senha);
@@ -33,7 +37,7 @@ public class Menu extends Cartao {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Qual a sua operação: [SA] - [C] - [D] - [P] - [U] - [B] - [.]");
+            System.out.println("Qual a sua operação: [SA] - [C] - [D] - [P] - [U] - [B] - [V] - [ID] - [.]");
             String acao = scanner.nextLine().toUpperCase();
 
             switch (acao) {
@@ -57,7 +61,7 @@ public class Menu extends Cartao {
                                     String.format("OBS: Você deve forncer uma idade acima de 18, e, o seu nome para que seja valido a criação. Sua idade: %d.\n " +
                                             "Seu nome: %s", this.idade, this.nome));
 
-                        }catch (ExceptionMenu ex){
+                        }catch (ExceptionMenu | ExceptionContaBancaria ex){
                             System.out.println("Error: " + ex.getMessage());
                         }
 
@@ -239,6 +243,14 @@ public class Menu extends Cartao {
                     viaCep.cep();
 
                     break;
+                case "ID":
+
+                    System.out.print("Pessoa física ou Jurídica? número: ");
+                    id = scanner.nextLine();
+
+                    Pessoa pessoa = new Pessoa(id);
+                    pessoa.Status();
+
                 default:
                     System.out.println("Saindo do sistema!!!");
                     isValid = true;

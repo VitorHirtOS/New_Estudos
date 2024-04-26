@@ -1,6 +1,8 @@
 package Bank;
 
-public class ContaBancaria {
+import Bank.Exception.ExceptionContaBancaria;
+
+public class ContaBancaria  {
     
     private int saldo;
     private int limite;
@@ -23,19 +25,26 @@ public class ContaBancaria {
 
     }
 
-    private void SetLimite(){
+    private void SetLimite() throws ExceptionContaBancaria {
 
-        if(this.saldo >= 1000 && this.saldo <= 4000){
-            this.limite = Limite.BASICO.BASICO();
-        } else if (this.saldo > 4000 && this.saldo <= 9000) {
-            this.limite = Limite.PREMIUM.PREMIUM();
+
+        if(this.saldo < 999){
+            throw new ExceptionContaBancaria("Saldo insuficiente para obter um limite");
         }else{
-            this.limite = Limite.PREMIUM.START_PREMIUM();
+
+            if(this.saldo >= 1000 && this.saldo <= 4000){
+                this.limite = Limite.BASICO.BASICO();
+            } else if (this.saldo > 4000 && this.saldo <= 9000) {
+                this.limite = Limite.PREMIUM.PREMIUM();
+            }else{
+                this.limite = Limite.PREMIUM.START_PREMIUM();
+            }
+
         }
 
     }
 
-    public int GetLimite(){
+    public int GetLimite() throws ExceptionContaBancaria {
         SetLimite();
         return this.limite;
     }
