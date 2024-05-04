@@ -1,25 +1,38 @@
 package Fisica_Juridica;
 
-public class Pessoa extends Jurida_ou_Fisica {
+import java.util.Scanner;
+
+public class Pessoa extends Jurida_ou_Fisica  {
+
 
     public void Status(){
 
-        String id = getId();
+        Scanner sc = new Scanner(System.in);
 
-        if(id.equals("1365")){
-            Fisica fisica = new Fisica(id);
-            fisica.info();
-        } else if (id.equals("2479")) {
-            Juridica juridica = new Juridica(id);
-            juridica.info();
+        try{
+
+            System.out.print("Pessoa física ou Jurídica? número: ");
+            String id = sc.nextLine();
+            String ids = getId(id);
+
+            if(ids.equals("1365")){
+                Fisica fisica = new Fisica();
+                System.out.println(fisica.info());
+            } else if (ids.equals("2479")) {
+                Juridica juridica = new Juridica();
+                System.out.println(juridica.info());
+            }
+
+            System.out.println(info());
+        }catch (Exception ex){
+            System.out.println("Error sistema: " + ex.getMessage());
         }
 
-        info();
 
     }
 
-    public Pessoa(String id){
-        super(id);
+    public Pessoa(){
+
     }
 
 }

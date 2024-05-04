@@ -2,17 +2,10 @@ package Fisica_Juridica;
 
 public class Fisica extends Jurida_ou_Fisica {
 
-    private final String id;
-
     @Override
     public String info(){
-        return "Você é uma pessoa";
+        return "Você é uma pessoa física";
     }
 
-
-    public Fisica(String id) {
-        super(id);
-        this.id = id;
-    }
 
 }

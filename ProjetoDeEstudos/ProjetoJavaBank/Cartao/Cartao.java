@@ -18,13 +18,11 @@ public class Cartao {
             FileWriter fw = new FileWriter(arquivo);
 
             if(lista != null){
-                System.out.println("------ Cliente ------");
                 for(String info : lista){
                     if(info != null){
                         fw.write(info + "\n");
                     }
                 }
-                System.out.println("-------- End --------");
                 fw.close();
 
             }

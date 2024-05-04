@@ -12,33 +12,26 @@ public class Usuario {
     private String CVC;
     private String numeroCard = "";
     private String dataVencimento;
-    private String senha;
+    private final String senha;
 
-    private void cartaoConfig() {
+    private void cartaoConfig(){
 
-        try{
+        Random gerador = new Random();
 
-            Random gerador = new Random();
+        int CVC = gerador.nextInt(100, 999);
+        this.CVC = String.valueOf(CVC);
 
-            int CVC = gerador.nextInt(100, 999);
-            this.CVC = String.valueOf(CVC);
-
-            for(int i = 0; i < 4; i++){
-                int numeroCard = gerador.nextInt(1000, 9999);
-                this.numeroCard += numeroCard;
-                if(i < 3){
-                    this.numeroCard += ".";
-                }
+        for(int i = 0; i < 4; i++){
+            int numeroCard = gerador.nextInt(1000, 9999);
+            this.numeroCard += numeroCard;
+            if(i < 3){
+                this.numeroCard += ".";
             }
-
-            int dataVencimento = gerador.nextInt(1, 28);
-            this.dataVencimento = String.valueOf(dataVencimento) + "/30";
-
-            throw new ExceptionUsuario("Problemas ao realizar as configurações do cartão!!!");
-
-        }catch (ExceptionUsuario ex){
-            System.out.println("Error: " + ex.getMessage());
         }
+
+        int dataVencimento = gerador.nextInt(1, 28);
+        this.dataVencimento = String.valueOf(dataVencimento) + "/30";
+
 
     }
 

@@ -1,40 +1,39 @@
 package Fisica_Juridica;
 
-abstract public class Jurida_ou_Fisica implements Ids {
+abstract public class Jurida_ou_Fisica {
 
-    private final String id;
-    private String ids;
+    public boolean isValidId(String ids){
 
-    public boolean isValidId(){
+        System.out.println(ids);
 
-        this.ids = String.valueOf(id.substring(0, 3));
-
-        return this.ids.equals("1365") || this.ids.equals("2479");
+        return ids.equals("1365") || ids.equals("2479");
 
     }
 
-    public String getId(){
+    public String getId(String id){
 
-        if(isValidId()){
+        String ids = String.valueOf(id.substring(0, 4));
 
-            if(this.ids.equals("1365")){
+        System.out.println(ids);
+
+        if(isValidId(ids)){
+
+            if(ids.equals("1365")){
+                System.out.println("Fisica");
                 return ids;
             }
 
+            System.out.println("Jurídica");
             return ids;
 
         }
 
-        return null;
+        return "";
 
     }
 
     public String info(){
         return "Você não é pessoa física ou jurídica";
-    }
-
-    public Jurida_ou_Fisica(String id){
-        this.id = id;
     }
 
 }

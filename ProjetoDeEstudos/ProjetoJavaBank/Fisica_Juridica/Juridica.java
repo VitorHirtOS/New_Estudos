@@ -2,16 +2,9 @@ package Fisica_Juridica;
 
 public class Juridica extends Jurida_ou_Fisica {
 
-    private final String id;
-
-    @Override
+     @Override
     public String info(){
-        return "Você é uma empresa";
-    }
-
-    public Juridica(String id) {
-        super(id);
-        this.id = id;
+        return "Você é uma empresa jurídica";
     }
 
 }

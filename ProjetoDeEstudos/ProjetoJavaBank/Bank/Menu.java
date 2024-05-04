@@ -6,38 +6,36 @@ import Cartao.Cartao;
 import Bank.Exception.ExceptionMenu;
 import Cartao.Exception.ExcpetionCartao;
 import Fisica_Juridica.Pessoa;
+import MoverValorConta.Transferencia;
+import Poupanca.Poupanca;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Menu extends Cartao {
+public class Menu extends Poupanca {
     
     private boolean isValid = false;
     private boolean isValidSalario = true;
     private String nome;
     private int idade;
-    public ArrayList<String> lista;
     private ContaBancaria contaBancaria;
     private Usuario usuario;
+    private Cartao cartao;
     private String cep;
     private int depostio;
     private int pagar;
-    private String senha;
-    private String senhaIsValid;
-    private String id;
 
     public void menu() throws ExcpetionCartao, IOException, ExceptionContaBancaria {
 
         contaBancaria = new ContaBancaria();
-        usuario = new Usuario(nome, idade, senha);
-        Menu criadoCartao = new Menu();
+        cartao = new Cartao();
 
         while(!isValid){
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Qual a sua operação: [SA] - [C] - [D] - [P] - [U] - [B] - [V] - [ID] - [.]");
+            System.out.println("Qual a sua operação: [SA] - [C] - [D] - [P] - [U] - [B] - [V] - [ID] - [SP] - [DP] - [VP] - [.]");
             String acao = scanner.nextLine().toUpperCase();
 
             switch (acao) {
@@ -133,10 +131,11 @@ public class Menu extends Cartao {
                 case "U":
 
                     System.out.print("Seu nome: ");
-                    nome = scanner.nextLine();
-                    while(nome == null){
+                    String nome = scanner.nextLine();
 
-                        System.out.println(String.format("Você não forneceu uma nome válido: '%s'", this.nome));
+                    while(nome.isEmpty()){
+
+                        System.out.println(String.format("Você não forneceu uma nome válido: '%s'", nome));
 
                         System.out.print("Valide o seu nome: ou 's' para sair: ");
                         nome = scanner.nextLine();
@@ -144,52 +143,59 @@ public class Menu extends Cartao {
                         if(nome.toUpperCase().equals("S")){
                             nome = null;
                             break;
+                        } else if (nome.isEmpty()) {
+                            System.err.println("O seu nome não é válido!!! ");
                         }
 
-                        System.err.println("O seu nome não é válido!!! ");
-
+                        System.out.println("O seu nome é válido!!! ");
                     }
 
-                    if(this.nome != null){
-                        System.err.println("O seu usuário não foi criado");
+                    if(nome == null){
+                       System.err.println("O seu usuário não foi criado");
                        break;
                     }
 
-                    usuario.setNome(nome);
+                    this.nome = nome;
 
                     System.out.print("Sua idade: ");
-                    idade = scanner.nextInt();
+                    int idade = scanner.nextInt();
                     scanner.nextLine();
 
-                    while(this.idade < 18){
+                    if(idade < 18){
 
-                        System.out.print("Valide a sua idade: ou '1' para sair: ");
+                        boolean isValidIdade = false;
 
-                        idade = scanner.nextInt();
+                        while(!isValidIdade){
 
-                        if(idade == 1){
-                            idade = 1;
-                            break;
+                            System.out.print("Valide a sua idade: ou '1' para sair: ");
+                            idade = scanner.nextInt();
+
+                            if(idade == 1){
+                                idade = 1;
+                                break;
+                            }
+
+                            System.err.println("O seu usuário não foi criado!!! ");
+
                         }
-
-                        System.err.println("O seu usuário não foi criado!!! ");
 
                     }
 
-                    if(this.idade != 1){
+
+                    if(idade == 1){
                         System.err.println("O seu usuário não foi criado");
                         break;
                     }
 
-                    usuario.setIdade(idade);
+                    this.idade = idade;
 
                     System.out.print("Crie uma senha: ");
-                    senha = scanner.nextLine();
+                    String senha = scanner.nextLine();
 
                     while(senha != null){
 
                         System.out.print("Valide a sua senha: ou 's' para sair: ");
-                        senhaIsValid = scanner.nextLine();
+                        String senhaIsValid = scanner.nextLine();
 
                         if(senhaIsValid.toUpperCase().equals("S")){
                             senha = null;
@@ -199,14 +205,16 @@ public class Menu extends Cartao {
                             break;
                         }
 
-                        System.err.println("Senhas não seu iguais!!! ");
+                        System.err.println("Senhas não seu iguais!!! \n");
 
                     }
 
-                    if(senha != null){
+                    if(senha == null){
                         System.err.println("O seu usuário não foi criado!!! ");
                         break;
                     }
+
+                    usuario = new Usuario(nome, idade, senha);
 
                     break;
                 case "B":
@@ -214,16 +222,18 @@ public class Menu extends Cartao {
                     if(!isValidSalario){
                         ArrayList<String> lista = new ArrayList<String>();
 
+                        lista.add("-------- Bank --------");
+                        lista.add("Nome: " + usuario.getNome());
                         lista.add("Idade: " + String.valueOf(usuario.getIdade()));
                         lista.add("CVC: " + usuario.getCVC());
-                        lista.add("Nome: " + usuario.getNome());
                         lista.add("Número do cartão: " + usuario.getNumeroCard());
                         lista.add("Data vencimento do cartão: " + usuario.getDataVencimento());
                         lista.add("Limite: " + String.valueOf(contaBancaria.GetLimite()));
                         lista.add("Saldo: " + String.valueOf(contaBancaria.GetSaldo()));
                         lista.add("Senha: " + usuario.getSenha());
+                        lista.add("-------- End --------");
 
-                        criadoCartao.criadoArquivo(lista);
+                        cartao.criadoArquivo(lista);
                         break;
                     }
 
@@ -245,12 +255,35 @@ public class Menu extends Cartao {
                     break;
                 case "ID":
 
-                    System.out.print("Pessoa física ou Jurídica? número: ");
-                    id = scanner.nextLine();
-
-                    Pessoa pessoa = new Pessoa(id);
+                    Pessoa pessoa = new Pessoa();
                     pessoa.Status();
 
+                    break;
+                case "SP":
+
+                    System.out.print("Qual o valor do saque: ");
+                    int saqueDeposito  = scanner.nextInt();
+
+                    sacarPoupanca(saqueDeposito);
+
+                    break;
+                case "DP":
+
+                    System.out.print("Qual o valor do depósito: ");
+                    int deposito  = scanner.nextInt();
+
+                    if(deposito > 1){
+                        depositoPoupanca(deposito);
+                    }
+
+                    break;
+                case "TR":
+
+
+
+                case "VP":
+                    System.out.println("Valor da poupança: " + getDepositoPoupanca());
+                    break;
                 default:
                     System.out.println("Saindo do sistema!!!");
                     isValid = true;
