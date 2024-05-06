@@ -6,6 +6,7 @@ import Cartao.Cartao;
 import Bank.Exception.ExceptionMenu;
 import Cartao.Exception.ExcpetionCartao;
 import Fisica_Juridica.Pessoa;
+import MoverValorConta.MenuTransferencia;
 import MoverValorConta.Transferencia;
 import Poupanca.Poupanca;
 
@@ -19,6 +20,7 @@ public class Menu extends Poupanca {
     private boolean isValidSalario = true;
     private String nome;
     private int idade;
+    private int deposito;
     private ContaBancaria contaBancaria;
     private Usuario usuario;
     private Cartao cartao;
@@ -35,7 +37,7 @@ public class Menu extends Poupanca {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Qual a sua operação: [SA] - [C] - [D] - [P] - [U] - [B] - [V] - [ID] - [SP] - [DP] - [VP] - [.]");
+            System.out.println("Qual a sua operação: [SA] - [C] - [D] - [P] - [U] - [B] - [V] - [ID] - [SP] - [DP] - [VP] - [TR] - [.]");
             String acao = scanner.nextLine().toUpperCase();
 
             switch (acao) {
@@ -95,7 +97,7 @@ public class Menu extends Poupanca {
                             System.out.print("Valor para depositar: ");
                             depostio = scanner.nextInt();
                             scanner.nextLine();
-                            contaBancaria.Depostio(depostio);
+                            contaBancaria.Deposito(depostio);
                             break;
                         }
 
@@ -270,7 +272,7 @@ public class Menu extends Poupanca {
                 case "DP":
 
                     System.out.print("Qual o valor do depósito: ");
-                    int deposito  = scanner.nextInt();
+                    deposito  = scanner.nextInt();
 
                     if(deposito > 1){
                         depositoPoupanca(deposito);
@@ -279,8 +281,16 @@ public class Menu extends Poupanca {
                     break;
                 case "TR":
 
+                    if(this.nome != null){
+                        MenuTransferencia _menuTransferencia = new MenuTransferencia(usuario.getNome(), usuario.getIdade(), usuario.getSenha(), contaBancaria.GetSaldo(), this.deposito);
+                        _menuTransferencia.menu();
+                        this.nome = null;
+                        break;
+                    }
 
+                    System.out.println("Não foi possível fazer esta operação. Portanto crie uma conta [U] e depois [SA]");
 
+                    break;
                 case "VP":
                     System.out.println("Valor da poupança: " + getDepositoPoupanca());
                     break;

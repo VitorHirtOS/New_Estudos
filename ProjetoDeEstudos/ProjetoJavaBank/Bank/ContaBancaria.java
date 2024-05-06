@@ -7,7 +7,7 @@ public class ContaBancaria  {
     private int saldo;
     private int limite;
 
-    public void Depostio(int valor){
+    public void Deposito(int valor){
         this.saldo += valor;
     }
 
