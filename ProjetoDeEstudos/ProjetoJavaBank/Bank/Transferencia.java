@@ -1,6 +1,6 @@
-package MoverValorConta;
+package Bank;
 
-abstract public class Transferencia {
+public class Transferencia {
 
     public void transferenciaDeValor(UsuarioConta usuario, Conta conta){
 

@@ -6,9 +6,8 @@ import Cartao.Cartao;
 import Bank.Exception.ExceptionMenu;
 import Cartao.Exception.ExcpetionCartao;
 import Fisica_Juridica.Pessoa;
-import MoverValorConta.MenuTransferencia;
-import MoverValorConta.Transferencia;
 import Poupanca.Poupanca;
+import Poupanca.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,11 +26,15 @@ public class Menu extends Poupanca {
     private String cep;
     private int depostio;
     private int pagar;
+    private int senha;
+    private int valorMovimentacao;
+    private Transferencia transferenciaDeValor;
 
     public void menu() throws ExcpetionCartao, IOException, ExceptionContaBancaria {
 
         contaBancaria = new ContaBancaria();
         cartao = new Cartao();
+        transferenciaDeValor = new Transferencia();
 
         while(!isValid){
 
@@ -42,8 +45,6 @@ public class Menu extends Poupanca {
 
             switch (acao) {
                 case "SA":
-
-                    if(isValidSalario){
 
                         try{
 
@@ -66,16 +67,13 @@ public class Menu extends Poupanca {
                         }
 
                         break;
-                    }
 
-                    System.out.println("Esta operação não está mais disponível");
-
-                    break;
                 case "C":
 
                     try{
 
                         if(!isValidSalario){
+
                             System.out.println("Saldo da sua conta está: " + contaBancaria.GetSaldo());
                             break;
                         }
@@ -282,10 +280,35 @@ public class Menu extends Poupanca {
                 case "TR":
 
                     if(this.nome != null){
-                        MenuTransferencia _menuTransferencia = new MenuTransferencia(usuario.getNome(), usuario.getIdade(), usuario.getSenha(), contaBancaria.GetSaldo(), this.deposito);
-                        _menuTransferencia.menu();
-                        this.nome = null;
+
+                        Conta contaVitor = new Conta(contaBancaria.GetSaldo(), usuario.getNome(), usuario.getIdade()); // getSaldo aqui!!!
+                        UsuarioConta conta01 = new UsuarioConta(usuario.getNome(), usuario.getIdade());
+
+                        System.out.println("Nome do recebedor: ");
+                        String nome02 = scanner.nextLine();
+                        System.out.println("Idade do recebedor: ");
+                        int idade02 = scanner.nextInt();
+                        scanner.nextLine();
+
+                        UsuarioConta conta02 = new UsuarioConta(nome02, idade02);
+
+                        System.out.println("Valor repassado: ");
+                        this.valorMovimentacao = scanner.nextInt();
+                        contaBancaria.Pagar(this.valorMovimentacao);
+                        boolean verificacao = contaVitor.isValidSaldo(this.valorMovimentacao); // Valor da transferência
+
+                        if(verificacao){
+                            Conta contaMaria = new Conta(this.valorMovimentacao, nome02, idade02);
+                            transferenciaDeValor.transferenciaDeValor(conta02, contaMaria);
+                            transferenciaDeValor.transferenciaDeValor(conta01, contaVitor);
+                            transferenciaDeValor.msg(conta01, conta02);
+                        }else{
+                            transferenciaDeValor.transferenciaDeValor(conta01, contaVitor);
+                            conta01.msg(conta01, conta02);
+                        }
+
                         break;
+
                     }
 
                     System.out.println("Não foi possível fazer esta operação. Portanto crie uma conta [U] e depois [SA]");
@@ -293,6 +316,11 @@ public class Menu extends Poupanca {
                     break;
                 case "VP":
                     System.out.println("Valor da poupança: " + getDepositoPoupanca());
+                    break;
+                case "T":
+
+                    Test test = new Test();
+                    test.menuTest();
                     break;
                 default:
                     System.out.println("Saindo do sistema!!!");

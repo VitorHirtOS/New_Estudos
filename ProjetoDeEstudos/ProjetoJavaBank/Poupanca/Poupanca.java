@@ -5,6 +5,7 @@ import java.util.Scanner;
 abstract public class Poupanca implements IPoupanca {
 
     private int depositoPoupanca;
+    private int valor;
 
     @Override
     public void depositoPoupanca(int valor) {
@@ -19,6 +20,14 @@ abstract public class Poupanca implements IPoupanca {
         }else{
             depositoPoupanca -= valor;
         }
+    }
+
+    public void TestValor(int valor){
+        this.valor += valor;
+    }
+
+    public int returnValor(){
+        return this.valor;
     }
 
     public int getDepositoPoupanca() {

@@ -1,4 +1,4 @@
-package MoverValorConta;
+package Bank;
 
 public enum Protocol {
 

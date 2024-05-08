@@ -49,8 +49,12 @@ public class ContaBancaria  {
         return this.limite;
     }
 
+    public void valorDeMover(int valor){
+        this.saldo -= valor;
+    }
+
     public void SaldoSalario(int salario){
-        this.saldo += salario;
+        this.saldo = salario;
     }
 
     public int GetSaldo(){
